@@ -6,6 +6,7 @@ import Profile from "./profile";
 function Header() {
   return (
     <div className="px-2 py-3 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 bg-gray-500/10">
+      <div className="absolute top-0 left-0 w-full h-2/5 bg-gradient-to-br from-pink-400 to-blue-400 filter blur-2xl opacity-50 -z-50" />
       {/* image */}
       <Image
         src="https://a.trellocdn.com/prgb/dist/images/header-logo-2x.01ef898811a879595cea.png"
