@@ -1,9 +1,11 @@
-import React from 'react'
+import GPT from "@/components/gpt";
 
 function Home() {
   return (
-    <p>Home : Trello</p>
-  )
+    <main>
+      <GPT />
+    </main>
+  );
 }
 
-export default Home
+export default Home;
