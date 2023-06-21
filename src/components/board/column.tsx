@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { PlusCircle } from "lucide-react";
 import TodoCard from "./todo-card";
+import { useBoardStore } from "@/store/board-store";
+
 type Props = {
   id: TypedColumn;
   todos: Todo[];
@@ -18,6 +20,22 @@ const idToColumnText: {
 };
 
 function Column({ id, todos, index }: Props) {
+  const [searchString] = useBoardStore((state) => [state.searchString]);
+  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    if (!searchString) {
+      setFilteredTodos(todos);
+      return;
+    }
+    setFilteredTodos([]);
+    todos.forEach((todo) => {
+      if (todo.title.toLowerCase().includes(searchString.toLowerCase())) {
+        setFilteredTodos((prev) => [...prev, todo]);
+      }
+    });
+  }, [searchString, todos]);
+
   return (
     <Draggable draggableId={id} index={index}>
       {(provided) => (
@@ -38,32 +56,31 @@ function Column({ id, todos, index }: Props) {
               >
                 <h2 className="flex justify-between font-bold text-xl p-2">
                   {idToColumnText[id]}{" "}
-                  {/* <span className="text-gray-500 bg-gray-300 rounded-full p-2 text-sm font-normal ">
-                    {todos.length}
-                  </span> */}
                   <Avatar className="text-sm h-6 w-6">
-                    <AvatarFallback>{todos.length}</AvatarFallback>
+                    <AvatarFallback>{filteredTodos.length}</AvatarFallback>
                   </Avatar>
                 </h2>
                 <div className="space-y-2">
-                  {todos.map((todo, index) => (
-                    <Draggable
-                      key={todo.$id}
-                      draggableId={todo.$id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <TodoCard
-                          id={id}
-                          index={index}
-                          todo={todo}
-                          innerRef={provided.innerRef}
-                          draggableProps={provided.draggableProps}
-                          dragHandleProps={provided.dragHandleProps}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
+                  {filteredTodos.map((todo, index) => {
+                    return (
+                      <Draggable
+                        key={todo.$id}
+                        draggableId={todo.$id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <TodoCard
+                            id={id}
+                            index={index}
+                            todo={todo}
+                            innerRef={provided.innerRef}
+                            draggableProps={provided.draggableProps}
+                            dragHandleProps={provided.dragHandleProps}
+                          />
+                        )}
+                      </Draggable>
+                    );
+                  })}
                   {provided.placeholder}
                   <div className="flex justify-end iteims-end">
                     <button className="text-green-500 hover:text-green-500">
