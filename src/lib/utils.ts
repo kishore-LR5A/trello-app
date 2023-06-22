@@ -49,3 +49,13 @@ export async function getTodosByColumn() {
   
   return board;
 }
+
+
+const fetchSuggestion = async (todos: Todo[]) => {
+  const response = await fetch("/api/generate-summary", {
+    method: "POST",
+    body: JSON.stringify({ todos }),
+  });
+  const data = await response.json();
+  return data;
+}

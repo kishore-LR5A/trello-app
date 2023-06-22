@@ -1,3 +1,4 @@
+import { useBoardStore } from "@/store/board-store";
 import { XCircle } from "lucide-react";
 import React from "react";
 import {
@@ -22,6 +23,7 @@ function TodoCard({
   draggableProps,
   dragHandleProps,
 }: Props) {
+  const [deleteTask] = useBoardStore((state) => [state.deleteTask]);
   return (
     <div
       className="bg-white rounded-md drop-shadow-md space-y-2 p-2"
@@ -31,7 +33,7 @@ function TodoCard({
     >
       <div className="flex justify-between items-center p-3">
         <p>{todo.title}</p>
-        <button>
+        <button onClick={() => deleteTask(index, todo, id)}>
           <XCircle className="h-6 w-6 text-red-500 hover:text-red-600 ml-5" />
         </button>
       </div>
