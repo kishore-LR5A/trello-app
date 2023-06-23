@@ -1,4 +1,4 @@
-import { databases } from "@/config/appwrite";
+import { ID, databases, storage } from "@/config/appwrite";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -46,16 +46,21 @@ export async function getTodosByColumn() {
   const board: Board = {
     columns: sortedColumns,
   };
-  
+
   return board;
 }
 
+export const uploadImage = async (file: File) => {
+  if (!file) return;
+  const filrUploaded = await storage.createFile(
+    process.env.NEXT_PUBLIC_IMAGES_STORAGE_ID!,
+    ID.unique(),
+    file
+  );
+  return filrUploaded;
+};
 
-const fetchSuggestion = async (todos: Todo[]) => {
-  const response = await fetch("/api/generate-summary", {
-    method: "POST",
-    body: JSON.stringify({ todos }),
-  });
-  const data = await response.json();
-  return data;
-}
+export const getURl = async (image: Image) => {
+  const url = await storage.getFilePreview(image.bucketId, image.fileId);
+  return url;
+};

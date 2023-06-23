@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { PlusCircle } from "lucide-react";
 import TodoCard from "./todo-card";
 import { useBoardStore } from "@/store/board-store";
+import { CreateTask } from "../modal/create-task";
 
 type Props = {
   id: TypedColumn;
@@ -82,10 +83,11 @@ function Column({ id, todos, index }: Props) {
                     );
                   })}
                   {provided.placeholder}
-                  <div className="flex justify-end iteims-end">
-                    <button className="text-green-500 hover:text-green-500">
+                  <div className="flex justify-end items-end">
+                    {/* <button className="text-green-500 hover:text-green-500">
                       <PlusCircle className="h-8 w-8" />
-                    </button>
+                    </button> */}
+                    <CreateTask />
                   </div>
                 </div>
               </div>

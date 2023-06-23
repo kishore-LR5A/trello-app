@@ -9,17 +9,17 @@ function GPT() {
   const [loading, setLoading] = useState<boolean>(false);
   const [suggestion, setSuggestion] = useState<string>("");
 
-  useEffect(() => {
-    if (board.columns.size === 0) return;
-    setLoading(true);
+  // useEffect(() => {
+  //   if (board.columns.size === 0) return;
+  //   setLoading(true);
 
-    const getSuggestion = async () => {
-      const suggestion = await fetchSuggestion(board);
-      setSuggestion(suggestion);
-      setLoading(false);
-    };
-    getSuggestion();
-  }, [board]);
+  //   const getSuggestion = async () => {
+  //     const suggestion = await fetchSuggestion(board);
+  //     setSuggestion(suggestion);
+  //     setLoading(false);
+  //   };
+  //   getSuggestion();
+  // }, [board]);
 
   return (
     <div className="flex items-center justify-center p-2 md:p-4">
